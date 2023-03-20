@@ -1,8 +1,8 @@
 
 import { useState,useEffect } from "react";
-import { storage } from "../firebase";
-import {ref,uploadBytesResumable,getDownloadURL} from 'firebase/storage'
-
+import { storage,db } from "@/firebase";
+import { collection,serverTimestamp,addDoc } from "firebase/firestore";
+import { ref,uploadBytesResumable,getDownloadURL } from "firebase/storage";
 
 export default function ProgressBar({file,setFile}) {
 
@@ -14,6 +14,8 @@ export default function ProgressBar({file,setFile}) {
    
 
     useEffect(()=>{
+
+        const collectionRef=collection(db,'resimler')
         const storageRef=ref(storage,file.name)
         const uploadTask= uploadBytesResumable(storageRef,file)
 
@@ -31,10 +33,15 @@ export default function ProgressBar({file,setFile}) {
                 }  
             }, 
             () => {
-                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    
                     if(!iptal){
                         setUrl(downloadURL)
+                        if(url!=null){
+                            addDoc(collectionRef,{url:url,tarih:serverTimestamp()})
+                        }
                     }
+            
                     
                 });
             }
