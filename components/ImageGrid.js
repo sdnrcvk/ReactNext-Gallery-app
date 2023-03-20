@@ -3,7 +3,7 @@ import { collection,onSnapshot,query,orderBy } from "@firebase/firestore"
 import { useEffect,useState } from "react"
 
 
-export default function ImageGrid() {
+export default function ImageGrid({setSecilenResim}) {
 
     const [docs,setDocs]=useState([])
 
@@ -25,11 +25,7 @@ export default function ImageGrid() {
     return (
         <div className="img-grid">
         {docs && docs.map(doc => (
-          <div className="img-wrap" key={doc.id} 
-          >
-            <img src={doc.url} alt="yüklenen resim"
-            />
-          </div>
+	        <div className="img-wrap" key={doc.id} onClick={()=>setSecilenResim(doc.url)}/>
         ))}
       </div>
     )
