@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 export default function Modal({secilenResim,setSecilenResim}) {
 
     const handleClick = (e) => {
@@ -7,9 +9,14 @@ export default function Modal({secilenResim,setSecilenResim}) {
       }
 
     return (
-        <div className="backdrop" onClick={handleClick}>
-          <img src={secilenResim} alt="resim" />
-        </div>
+        <motion.div className="backdrop" onClick={handleClick} 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}>
+          <motion.img src={secilenResim} alt="resim" 
+          initial={{ y: "-100vh" }}
+          animate={{ y: 0 }}
+          />
+        </motion.div>
       )
 }
 

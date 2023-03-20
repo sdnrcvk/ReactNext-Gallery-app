@@ -1,7 +1,7 @@
 import { db } from "../firebase"
 import { collection,onSnapshot,query,orderBy } from "@firebase/firestore"
 import { useEffect,useState } from "react"
-
+import { motion } from "framer-motion"
 
 export default function ImageGrid({setSecilenResim}) {
 
@@ -25,7 +25,17 @@ export default function ImageGrid({setSecilenResim}) {
     return (
         <div className="img-grid">
         {docs && docs.map(doc => (
-	        <div className="img-wrap" key={doc.id} onClick={()=>setSecilenResim(doc.url)}/>
+	        <motion.div className="img-wrap" key={doc.id} 
+          layout
+          whileHover={{opacity:1}}
+          onClick={()=>setSecilenResim(doc.url)}
+          >
+          <motion.img src={doc.url} alt="yüklenen resim"
+          initial={{opacity:0}}
+          animate={{opacity:1}}
+          transition={{delay:1}}
+          />
+          </motion.div>
         ))}
       </div>
     )
